@@ -1,0 +1,51 @@
+name: Tensorflow zephyr-vexriscv tests
+on: [push,pull_request,workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    env:
+      ZEPHYR_TOOLCHAIN_VARIANT: "zephyr"
+      ZEPHYR_SDK_INSTALL_DIR: "/opt/zephyr-sdk"
+      DEMO_HOME: "${{ github.workspace }}"
+    steps:
+      - name: Configure git
+        run: git config --global url.https://github.com/llvm-mirror/.insteadOf 'https://git.llvm.org/git/'
+     
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+
+      - name: Install requirements
+        run: |
+          sudo apt update
+          sudo apt install -y cmake ninja-build gperf ccache dfu-util device-tree-compiler wget python python3-pip python3-setuptools python3-tk python3-wheel xz-utils file make gcc gcc-multilib locales tar curl unzip xxd
+          python -m pip install --upgrade pip
+          pip install cmake virtualenv
+      
+      - name: Install zephyr
+        run: |
+          wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.11.2/zephyr-sdk-0.11.2-setup.run
+          chmod +x zephyr-sdk-0.11.2-setup.run
+          ./zephyr-sdk-0.11.2-setup.run -- -d $ZEPHYR_SDK_INSTALL_DIR
+
+      - name: Build magic-wand binary
+        run: |
+          cd $DEMO_HOME/tensorflow
+          make -f tensorflow/lite/micro/tools/make/Makefile TARGET=zephyr_vexriscv magic_wand_bin
+
+      - name: Test in Renode
+        uses: antmicro/renode-actions/test-in-renode@main
+        with:
+          tests-to-run: 'examples/magic-wand/magic_wand.robot'
+
+      - name: Upload magic-wand artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: magic_wand_artifacts
+          path: |
+            tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64/magic_wand/build/zephyr/zephyr.elf
