@@ -9,3 +9,24 @@ This repository, developed in collaboration between Antmicro and Google's TF Lit
   * `test_examples.yml` - building and testing examples
 * `examples` - scripts and tests for specific TensorFlow Lite examples
   * `magic-wand` - magic wand demo running in Zephyr on Litex/VexRiscv SoC
+* `tensorflow` - example sources and libs, generated from the TF repository
+
+### Installing requirements
+
+This project requires [Zephyr SDK](https://docs.zephyrproject.org/latest/getting_started/installation_linux.html#install-the-zephyr-software-development-kit-sdk) and [west](https://docs.zephyrproject.org/latest/guides/west/install.html). `ZEPHYR_SDK_INSTALL_DIR` variable must be set.
+
+Run `./setup_zephyr.sh` to setup Zephyr repository.
+
+### Build examples
+
+
+To build examples run:
+
+```
+  make <example_name>
+```
+
+For example:
+```
+  make magic_wand
+```
