@@ -1,0 +1,5 @@
+.west/
+zephyr/
+gen/
+bin/
+/tensorflow/CMakeLists.txt
