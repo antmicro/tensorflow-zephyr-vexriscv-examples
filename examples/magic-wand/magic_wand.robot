@@ -50,7 +50,7 @@ Run Magic Wand Demo
     Execute Command           using sysbus
 
     Execute Command           mach create
-    Execute Command           machine LoadPlatformDescription @${CURDIR}/litex-vexriscv-tflite.repl
+    Execute Command           machine LoadPlatformDescription @${CURDIR}/../litex-vexriscv-tflite.repl
 
     Execute Command           showAnalyzer uart Antmicro.Renode.Analyzers.LoggingUartAnalyzer
 

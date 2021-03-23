@@ -31,6 +31,11 @@ jobs:
           cd examples/magic-wand
           jupytext --to ipynb magic_wand.py
 
+      - name: Generate hello-world ipynb
+        run: |
+          cd examples/hello-world
+          jupytext --to ipynb hello_world.py
+
       - name: Configure git
         run: |
           git config --global user.name $GH_SERVICE_ACCOUNT_NAME
