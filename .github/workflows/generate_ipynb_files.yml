@@ -1,7 +1,7 @@
 name: Generate ipynb files
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths:
     - 'examples/*/*.py'
     - '.github/workflows/generate_ipynb_files.yml'
@@ -37,12 +37,12 @@ jobs:
           git config --global user.email $GH_SERVICE_ACCOUNT_EMAIL
 
       - name: Commit and push
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git add examples/*/*.ipynb
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "Generate ipynb files";
-            git push -u https://$GH_SERVICE_ACCOUNT_NAME:$GH_SERVICE_ACCOUNT_TOKEN@github.com/antmicro/tensorflow-zephyr-vexriscv-examples.git master
+            git push -u https://$GH_SERVICE_ACCOUNT_NAME:$GH_SERVICE_ACCOUNT_TOKEN@github.com/antmicro/tensorflow-zephyr-vexriscv-examples.git main
           else
             echo "no changes";
           fi
