@@ -30,7 +30,7 @@ shutdown_renode()
 connect_renode() # this sets up a log file, and clears the simulation (just in case)
 tell_renode('using sysbus')
 tell_renode('mach create')
-tell_renode('machine LoadPlatformDescription @tensorflow-zephyr-vexriscv-examples/examples/magic-wand/litex-vexriscv-tflite.repl')
+tell_renode('machine LoadPlatformDescription @tensorflow-zephyr-vexriscv-examples/examples/litex-vexriscv-tflite.repl')
 tell_renode('sysbus LoadELF @binaries/magic_wand/magic_wand_zephyr.elf')
 
 tell_renode('uart CreateFileBackend @uart.dump true')
