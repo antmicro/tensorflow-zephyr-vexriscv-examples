@@ -38,10 +38,20 @@ jobs:
           cd $DEMO_HOME/tensorflow
           make -f tensorflow/lite/micro/tools/make/Makefile TARGET=zephyr_vexriscv magic_wand_bin
 
-      - name: Test in Renode
+      - name: Test magic-wand in Renode
         uses: antmicro/renode-actions/test-in-renode@main
         with:
           tests-to-run: 'examples/magic-wand/magic_wand.robot'
+
+      - name: Build hello-world binary
+        run: |
+          cd $DEMO_HOME/tensorflow
+          make -f tensorflow/lite/micro/tools/make/Makefile TARGET=zephyr_vexriscv hello_world_bin
+
+      - name: Test hello-world in Renode
+        uses: antmicro/renode-actions/test-in-renode@main
+        with:
+          tests-to-run: 'examples/hello-world/hello_world.robot'
 
       - name: Upload magic-wand artifacts
         uses: actions/upload-artifact@v2
