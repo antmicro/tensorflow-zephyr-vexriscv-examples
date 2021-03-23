@@ -6,6 +6,7 @@ This repository, developed in collaboration between Antmicro and Google's TF Lit
 ### Repo structure
 
 * `.github/workflows` - GH actions files
+  * `generate_ipynb_files.yml` - generating `ipynb` files from `py` sources
   * `test_examples.yml` - building and testing examples
 * `examples` - scripts and tests for specific TensorFlow Lite examples
-  * `magic-wand` - magic wand demo running in Zephyr on Litex/VexRiscv SoC
+  * `magic-wand` - magic wand demo running in Zephyr on Litex/VexRiscv SoC [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/antmicro/tensorflow-zephyr-vexriscv-examples/blob/master/examples/magic-wand/magic_wand.ipynb)
