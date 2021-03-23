@@ -37,7 +37,7 @@ tell_renode('uart CreateFileBackend @uart.dump true')
 tell_renode('logLevel 3')
 tell_renode('machine EnableProfiler "metrics.dump"')
 tell_renode('i2c.adxl345 MaxFifoDepth 1')
-tell_renode('i2c.adxl345 FeedSample @tensorflow-zephyr-vexriscv-examples/examples/magic-wand/circle.data')
+tell_renode('i2c.adxl345 FeedSample @tensorflow-zephyr-vexriscv-examples/examples/magic-wand/angle.data')
 tell_renode('s')
 time.sleep(5) #waits for creating uart.dump
 !timeout 60 tail -c+2 -f renode/uart.dump | sed '/\* \* \* \* \* \* \* \*/ q'
