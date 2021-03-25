@@ -43,6 +43,13 @@ jobs:
         with:
           tests-to-run: 'examples/magic-wand/magic_wand.robot'
 
+      - name: Upload magic-wand artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: magic_wand_artifacts
+          path: |
+            tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/magic_wand/build/zephyr/zephyr.elf
+
       - name: Build hello-world binary
         run: |
           cd $DEMO_HOME/tensorflow
@@ -53,9 +60,9 @@ jobs:
         with:
           tests-to-run: 'examples/hello-world/hello_world.robot'
 
-      - name: Upload magic-wand artifacts
+      - name: Upload hello-world artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: magic_wand_artifacts
+          name: hello_world_artifacts
           path: |
-            tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64/magic_wand/build/zephyr/zephyr.elf
+            tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf
