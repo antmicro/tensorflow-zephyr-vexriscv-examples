@@ -37,6 +37,8 @@ jobs:
         run: |
           cd $DEMO_HOME/tensorflow
           make -f tensorflow/lite/micro/tools/make/Makefile TARGET=zephyr_vexriscv magic_wand_bin
+          mkdir -p $DEMO_HOME/artifacts/binaries/magic_wand
+          cp $DEMO_HOME/tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/magic_wand/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/magic_wand/magic_wand_zephyr.elf
 
       - name: Test magic-wand in Renode
         uses: antmicro/renode-actions/test-in-renode@main
@@ -48,12 +50,14 @@ jobs:
         with:
           name: magic_wand_artifacts
           path: |
-            tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/magic_wand/build/zephyr/zephyr.elf
+            artifacts/binaries/magic_wand/*
 
       - name: Build hello-world binary
         run: |
           cd $DEMO_HOME/tensorflow
           make -f tensorflow/lite/micro/tools/make/Makefile TARGET=zephyr_vexriscv hello_world_bin
+          mkdir -p $DEMO_HOME/artifacts/binaries/hello_world
+          cp $DEMO_HOME/tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/hello_world/hello_world_zephyr.elf
 
       - name: Test hello-world in Renode
         uses: antmicro/renode-actions/test-in-renode@main
@@ -65,4 +69,5 @@ jobs:
         with:
           name: hello_world_artifacts
           path: |
-            tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf
+            artifacts/binaries/hello_world/*
+
