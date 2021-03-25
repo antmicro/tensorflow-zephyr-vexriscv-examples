@@ -29,12 +29,18 @@ jobs:
       - name: Generate magic-wand ipynb
         run: |
           cd examples/magic-wand
-          jupytext --to ipynb magic_wand.py
+          sed 's/${EXAMPLE}/magic_wand/g' $GITHUB_WORKSPACE/.github/scripts/build_binary_in_colab.txt > replacement.txt
+          cp magic_wand.py magic_wand_build_binary.py
+          sed -i $'/fetch prebuilt binaries/{r replacement.txt\n d}' magic_wand_build_binary.py
+          jupytext --to ipynb magic_wand.py magic_wand_build_binary.py
 
       - name: Generate hello-world ipynb
         run: |
           cd examples/hello-world
-          jupytext --to ipynb hello_world.py
+          sed 's/${EXAMPLE}/hello_world/g' $GITHUB_WORKSPACE/.github/scripts/build_binary_in_colab.txt > replacement.txt
+          cp hello_world.py hello_world_build_binary.py
+          sed -i $'/fetch prebuilt binaries/{r replacement.txt\n d}' hello_world_build_binary.py
+          jupytext --to ipynb hello_world.py hello_world_build_binary.py
 
       - name: Configure git
         run: |

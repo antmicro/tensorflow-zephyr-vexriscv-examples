@@ -1,0 +1,7 @@
+!pip install --upgrade cmake virtualenv
+!apt update && apt install cmake ninja-build gperf ccache dfu-util device-tree-compiler wget python python3-pip python3-setuptools python3-tk python3-wheel xz-utils file make gcc gcc-multilib locales tar curl unzip xxd
+!wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.11.2/zephyr-sdk-0.11.2-setup.run
+!chmod +x zephyr-sdk-0.11.2-setup.run && sudo ./zephyr-sdk-0.11.2-setup.run -- -d /opt/zephyr-sdk -y
+!cd tensorflow-zephyr-vexriscv-examples && git submodule update --init
+!cd tensorflow-zephyr-vexriscv-examples/tensorflow && sudo make -f tensorflow/lite/micro/tools/make/Makefile TARGET=zephyr_vexriscv ${EXAMPLE}_bin
+!mkdir -p binaries/${EXAMPLE} && cp tensorflow-zephyr-vexriscv-examples/tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/${EXAMPLE}/build/zephyr/zephyr.elf binaries/${EXAMPLE}/${EXAMPLE}_zephyr.elf
