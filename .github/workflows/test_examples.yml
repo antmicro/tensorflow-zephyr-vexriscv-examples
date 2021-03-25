@@ -71,3 +71,16 @@ jobs:
           path: |
             artifacts/binaries/hello_world/*
 
+      - name: Upload binaries
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git clone https://github.com/antmicro/tensorflow-zephyr-vexriscv-examples-binaries.git
+          cp -r artifacts/binaries/* tensorflow-zephyr-vexriscv-examples-binaries
+          cd tensorflow-zephyr-vexriscv-examples-binaries
+          git add .
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Upload binaries";
+            git push -u https://$GH_SERVICE_ACCOUNT_NAME:$GH_SERVICE_ACCOUNT_TOKEN@github.com/antmicro/tensorflow-zephyr-vexriscv-examples-binaries.git master
+          else
+            echo "no changes";
+          fi
