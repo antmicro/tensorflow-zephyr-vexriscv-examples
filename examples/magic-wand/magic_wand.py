@@ -12,11 +12,14 @@
 !pip install -q git+https://github.com/antmicro/pyrenode.git git+https://github.com/antmicro/renode-colab-tools.git
 !mkdir -p renode && cd renode && wget https://dl.antmicro.com/projects/renode/builds/renode-latest.linux-portable.tar.gz && tar -xzf renode-latest.linux-portable.tar.gz --strip 1
 !pip install -q -r renode/tests/requirements.txt
-!git clone --quiet https://github.com/antmicro/tensorflow-zephyr-vexriscv-examples.git
+!git clone --quiet --recurse-submodules https://github.com/antmicro/tensorflow-zephyr-vexriscv-examples.git
 
 import os
 from renode_colab_tools import metrics
 os.environ['PATH'] = os.getcwd()+"/renode:"+os.environ['PATH']
+os.environ['TENSORFLOW_PATH'] = os.getcwd()+"/tensorflow-zephyr-vexriscv-examples/tensorflow"
+os.environ['ZEPHYR_SDK_INSTALL_DIR'] = "/opt/zephyr-sdk"
+os.environ['ZEPHYR_TOOLCHAIN_VARIANT'] = "zephyr"
 # %%
 !mkdir -p binaries/magic_wand && cd binaries/magic_wand && wget https://github.com/antmicro/tensorflow-zephyr-vexriscv-examples-binaries/raw/master/magic_wand/magic_wand_zephyr.elf # fetch prebuilt binaries
 
