@@ -5,6 +5,7 @@ on:
     paths:
     - 'examples/*/*.py'
     - '.github/workflows/generate_ipynb_files.yml'
+    - '.github/scripts/dtc_colab_fix.sh'
   workflow_dispatch:
 
 jobs:
