@@ -1,0 +1,5 @@
+numpy
+ipywidgets
+nbinteract
+cmake
+virtualenv
