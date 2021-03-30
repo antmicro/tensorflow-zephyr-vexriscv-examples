@@ -34,6 +34,7 @@ jobs:
           cp $GITHUB_WORKSPACE/install_dependencies.sh replacement.txt
           cat  $GITHUB_WORKSPACE/.github/scripts/dtc_colab_fix.sh >> replacement.txt
           sed 's/$1/magic_wand/g' $GITHUB_WORKSPACE/build.sh >> replacement.txt
+          sed -i 's/^/!/' replacement.txt
           sed -i $'/fetch prebuilt binaries/{r replacement.txt\n d}' magic_wand_build_binary.py
           jupytext --to ipynb magic_wand.py magic_wand_build_binary.py
 
@@ -45,6 +46,7 @@ jobs:
           cp $GITHUB_WORKSPACE/install_dependencies.sh replacement.txt
           cat  $GITHUB_WORKSPACE/.github/scripts/dtc_colab_fix.sh >> replacement.txt
           sed 's/$1/hello_world/g' $GITHUB_WORKSPACE/build.sh >> replacement.txt
+          sed -i 's/^/!/' replacement.txt
           sed -i $'/fetch prebuilt binaries/{r replacement.txt\n d}' hello_world_build_binary.py
           jupytext --to ipynb hello_world.py hello_world_build_binary.py
 
