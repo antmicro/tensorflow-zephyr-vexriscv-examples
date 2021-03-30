@@ -39,7 +39,7 @@ export TENSORFLOW_PATH=tensorflow
 
 ## Building the demos
 
-### Magic Wand demo
+### Hello World demo
 
 Build the `Hello World` demo with:
 ```bash
