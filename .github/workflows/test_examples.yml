@@ -28,6 +28,8 @@ jobs:
       - name: Build magic-wand binary
         run: |
           ./build.sh magic_wand
+          mkdir -p $DEMO_HOME/artifacts/binaries/magic_wand
+          cp $TENSORFLOW_PATH/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/magic_wand/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/magic_wand/magic_wand_zephyr.elf
 
       - name: Test magic-wand in Renode
         uses: antmicro/renode-actions/test-in-renode@main
@@ -39,11 +41,13 @@ jobs:
         with:
           name: magic_wand_artifacts
           path: |
-            tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/magic_wand/build/zephyr/zephyr.elf
+            artifacts/binaries/magic_wand/*
 
       - name: Build hello-world binary
         run: |
           ./build.sh hello_world
+          mkdir -p $DEMO_HOME/artifacts/binaries/hello_world
+          cp $TENSORFLOW_PATH/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/hello_world/hello_world_zephyr.elf
 
       - name: Test hello-world in Renode
         uses: antmicro/renode-actions/test-in-renode@main
@@ -55,4 +59,18 @@ jobs:
         with:
           name: hello_world_artifacts
           path: |
-            tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf
+            artifacts/binaries/hello_world/*
+
+      - name: Upload binaries
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git clone https://github.com/antmicro/tensorflow-zephyr-vexriscv-examples-binaries.git
+          cp -r artifacts/binaries/* tensorflow-zephyr-vexriscv-examples-binaries
+          cd tensorflow-zephyr-vexriscv-examples-binaries
+          git add .
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Upload binaries";
+            git push -u https://$GH_SERVICE_ACCOUNT_NAME:$GH_SERVICE_ACCOUNT_TOKEN@github.com/antmicro/tensorflow-zephyr-vexriscv-examples-binaries.git master
+          else
+            echo "no changes";
+          fi
