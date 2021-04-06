@@ -9,6 +9,9 @@ jobs:
       ZEPHYR_SDK_INSTALL_DIR: "/opt/zephyr-sdk"
       DEMO_HOME: "${{ github.workspace }}"
       TENSORFLOW_PATH: "${{ github.workspace }}/tensorflow"
+      GH_SERVICE_ACCOUNT_NAME: "tflite-bot"
+      GH_SERVICE_ACCOUNT_EMAIL: "tflite-bot@antmicro.com"
+      GH_SERVICE_ACCOUNT_TOKEN: ${{ secrets.GH_SERVICE_ACCOUNT_TOKEN }}
     steps:
       - name: Configure git
         run: git config --global url.https://github.com/llvm-mirror/.insteadOf 'https://git.llvm.org/git/'
@@ -60,6 +63,11 @@ jobs:
           name: hello_world_artifacts
           path: |
             artifacts/binaries/hello_world/*
+            
+      - name: Configure git
+        run: |
+          git config --global user.name $GH_SERVICE_ACCOUNT_NAME
+          git config --global user.email $GH_SERVICE_ACCOUNT_EMAIL
 
       - name: Upload binaries
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
