@@ -32,6 +32,8 @@ jobs:
         run: |
           cd examples/magic-wand
           cp magic_wand.py magic_wand_build_binary.py
+          sed -i 's/$NOTEBOOK/magic_wand/g' magic_wand.py
+          sed -i 's/$NOTEBOOK/magic_wand_build_binary/g' magic_wand_build_binary.py
           cp $GITHUB_WORKSPACE/install_dependencies.sh replacement.txt
           cat  $GITHUB_WORKSPACE/.github/scripts/dtc_colab_fix.sh >> replacement.txt
           sed 's/$1/magic_wand/g' $GITHUB_WORKSPACE/build.sh >> replacement.txt
@@ -44,6 +46,8 @@ jobs:
         run: |
           cd examples/hello-world
           cp hello_world.py hello_world_build_binary.py
+          sed -i 's/$NOTEBOOK/hello_world/g' hello_world.py
+          sed -i 's/$NOTEBOOK/hello_world_build_binary/g' hello_world_build_binary.py
           cp $GITHUB_WORKSPACE/install_dependencies.sh replacement.txt
           cat  $GITHUB_WORKSPACE/.github/scripts/dtc_colab_fix.sh >> replacement.txt
           sed 's/$1/hello_world/g' $GITHUB_WORKSPACE/build.sh >> replacement.txt
