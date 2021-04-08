@@ -53,7 +53,7 @@ tell_renode('machine EnableProfiler @metrics.dump')
 tell_renode('s')
 while not os.path.exists('renode/uart.dump'):
   time.sleep(1) #waits for creating uart.dump
-!timeout 60 tail -c+2 -f renode/uart.dump | sed '/^1$/ q'
+!timeout 10 tail -c+2 -f renode/uart.dump | sed '/^1$/ q'
 tell_renode('q')
 expect_cli('Renode is quitting')
 time.sleep(1) #wait not to kill Renode forcefully
