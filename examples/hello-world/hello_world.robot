@@ -13,7 +13,7 @@ Create Machine
     Execute Command          mach create
     Execute Command          machine LoadPlatformDescription @${CURDIR}/../litex-vexriscv-tflite.repl
 
-    Execute Command          sysbus LoadELF @${CURDIR}/../../tensorflow/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf
+    Execute Command          sysbus LoadELF @${CURDIR}/../../artifacts/binaries/hello_world/zephyr.elf
 
 *** Test Cases ***
 Should Print Brightness Sequence
