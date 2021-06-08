@@ -34,7 +34,7 @@ sudo ./install_dependencies.sh
 
 Export Tensorflow path:
 ```bash
-export TENSORFLOW_PATH=tensorflow
+export TENSORFLOW_PATH=tflite-micro
 ```
 
 ## Building the demos
