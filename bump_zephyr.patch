@@ -1,0 +1,31 @@
+diff --git a/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc b/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc
+index f7f019d..d1f0e0c 100644
+--- a/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc
++++ b/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc
+@@ -23,7 +23,7 @@ limitations under the License.
+ 
+ #define BUFLEN 300
+ int begin_index = 0;
+-struct device* sensor = NULL;
++const struct device* sensor = NULL;
+ int current_index = 0;
+ 
+ float bufx[BUFLEN] = {0.0f};
+@@ -33,14 +33,14 @@ float bufz[BUFLEN] = {0.0f};
+ bool initial = true;
+ 
+ TfLiteStatus SetupAccelerometer(tflite::ErrorReporter* error_reporter) {
+-  sensor = device_get_binding(DT_INST_0_ADI_ADXL345_LABEL);
++  sensor = device_get_binding(DT_LABEL(DT_INST(0, adi_adxl345)));
+   if (sensor == NULL) {
+     TF_LITE_REPORT_ERROR(error_reporter,
+                          "Failed to get accelerometer, label: %s\n",
+-                         DT_INST_0_ADI_ADXL345_LABEL);
++                         DT_LABEL(DT_INST(0, adi_adxl345)));
+   } else {
+     TF_LITE_REPORT_ERROR(error_reporter, "Got accelerometer, label: %s\n",
+-                         DT_INST_0_ADI_ADXL345_LABEL);
++                         DT_LABEL(DT_INST(0, adi_adxl345)));
+   }
+   return kTfLiteOk;
+ }
