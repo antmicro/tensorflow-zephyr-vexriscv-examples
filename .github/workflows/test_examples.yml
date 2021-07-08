@@ -82,3 +82,66 @@ jobs:
           else
             echo "no changes";
           fi
+
+  test-bumped-zephyr:
+    runs-on: ubuntu-18.04
+    env:
+      ZEPHYR_TOOLCHAIN_VARIANT: "zephyr"
+      ZEPHYR_SDK_INSTALL_DIR: "/opt/zephyr-sdk"
+      DEMO_HOME: "${{ github.workspace }}"
+      TENSORFLOW_PATH: "${{ github.workspace }}/tflite-micro"
+    steps:
+      - name: Configure git
+        run: git config --global url.https://github.com/llvm-mirror/.insteadOf 'https://git.llvm.org/git/'
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+
+      - name: Install requirements
+        run: |
+          ./install_dependencies.sh
+
+      - name: Bump Zephyr
+        run: |
+          ./.github/scripts/bump_zephyr.sh
+
+      - name: Build magic-wand binary
+        run: |
+          ./build.sh magic_wand
+          mkdir -p $DEMO_HOME/artifacts/binaries/magic_wand
+          cp $TENSORFLOW_PATH/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/magic_wand/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/magic_wand/magic_wand_zephyr.elf
+
+      - name: Test magic-wand in Renode
+        uses: antmicro/renode-actions/test-in-renode@main
+        with:
+          tests-to-run: 'examples/magic-wand/magic_wand.robot'
+
+      - name: Upload magic-wand artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: magic_wand_artifacts
+          path: |
+            artifacts/binaries/magic_wand/*
+
+      - name: Build hello-world binary
+        run: |
+          ./build.sh hello_world
+          mkdir -p $DEMO_HOME/artifacts/binaries/hello_world
+          cp $TENSORFLOW_PATH/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/hello_world/hello_world_zephyr.elf
+
+      - name: Test hello-world in Renode
+        uses: antmicro/renode-actions/test-in-renode@main
+        with:
+          tests-to-run: 'examples/hello-world/hello_world.robot'
+
+      - name: Upload hello-world artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: hello_world_artifacts
+          path: |
+            artifacts/binaries/hello_world/*
