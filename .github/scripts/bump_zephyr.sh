@@ -21,7 +21,7 @@ if [ -z $SDK_VERSION]; then
 fi;
 
 ZEPHYR_SDK_RELEASES_URL="https://github.com/zephyrproject-rtos/sdk-ng/releases/download"
-ZEPHYR_SDK_FILENAME="zephyr-sdk-${SDK_VERSION}-x86_64-linux-setup.run"
+ZEPHYR_SDK_FILENAME="zephyr-sdk-${SDK_VERSION}-linux-x86_64-setup.run"
 
 sed -i "s@^wget ${ZEPHYR_SDK_RELEASES_URL}.*@wget ${ZEPHYR_SDK_RELEASES_URL}/v${SDK_VERSION}/${ZEPHYR_SDK_FILENAME}@" install_dependencies.sh
 sed -i "s@^chmod +x.*@chmod +x ${ZEPHYR_SDK_FILENAME}@" install_dependencies.sh
