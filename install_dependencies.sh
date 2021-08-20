@@ -4,3 +4,6 @@ pip install pillow
 wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.11.2/zephyr-sdk-0.11.2-setup.run
 chmod +x zephyr-sdk-0.11.2-setup.run
 ./zephyr-sdk-0.11.2-setup.run -- -y -d $ZEPHYR_SDK_INSTALL_DIR
+
+# Patch tflite-micro
+cd tflite-micro && patch -p1 < ../patches/0001-Add-model-data-pre-generation-to-zephyr-vexriscv-exa.patch && cd -

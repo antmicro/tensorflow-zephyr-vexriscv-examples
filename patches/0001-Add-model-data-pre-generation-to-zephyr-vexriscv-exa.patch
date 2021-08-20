@@ -1,0 +1,71 @@
+From b91d815523839d785413156692302f4f9067059a Mon Sep 17 00:00:00 2001
+From: Jakub Jatczak <jjatczak@antmicro.com>
+Date: Fri, 20 Aug 2021 15:55:27 +0200
+Subject: [PATCH] Add model data pre-generation to zpehyr-vexriscv examples
+
+---
+ .../examples/hello_world/zephyr_riscv/Makefile.inc    | 11 +++++++++--
+ .../examples/magic_wand/zephyr_riscv/Makefile.inc     |  8 +++++++-
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/tensorflow/lite/micro/examples/hello_world/zephyr_riscv/Makefile.inc b/tensorflow/lite/micro/examples/hello_world/zephyr_riscv/Makefile.inc
+index a9ed5e7..85236a2 100644
+--- a/tensorflow/lite/micro/examples/hello_world/zephyr_riscv/Makefile.inc
++++ b/tensorflow/lite/micro/examples/hello_world/zephyr_riscv/Makefile.inc
+@@ -9,7 +9,7 @@ tensorflow/lite/micro/examples/hello_world/main.cc \
+ tensorflow/lite/micro/examples/hello_world/main_functions.cc \
+ tensorflow/lite/micro/examples/hello_world/constants.cc \
+ tensorflow/lite/micro/examples/hello_world/output_handler.cc \
+-tensorflow/lite/micro/examples/hello_world/model.cc \
++tensorflow/lite/micro/examples/hello_world/hello_world_model_data.cc \
+ prj.conf
+ 
+ $(eval $(call generate_project,cmake,zephyr_cmake_project.cmake,hello_world,$(MICROLITE_CC_SRCS) $(MICROLITE_CC_KERNEL_SRCS) $(THIRD_PARTY_CC_SRCS) $(ZEPHYR_HELLO_WORLD_SRCS) $(MICROLITE_CC_HDRS) $(THIRD_PARTY_CC_HDRS) $(HELLO_WORLD_HDRS),,$(LDFLAGS) $(MICROLITE_LIBS),$(CXXFLAGS),$(CCFLAGS),))
+@@ -17,12 +17,19 @@ $(eval $(call generate_project,cmake,zephyr_cmake_project.cmake,hello_world,$(MI
+ $(PRJDIR)hello_world/cmake/CMakeLists.txt: $(PRJDIR)hello_world/cmake/zephyr_cmake_project.cmake
+ 	@sed -E 's#\%\{INCLUDE_DIRS\}\%#$(PROJECT_INCLUDES)#g' $< > $@
+ 
++hello_world_pregen_arrays:
++	@python3 tensorflow/lite/micro/tools/generate_cc_arrays.py ${PRJDIR}hello_world/cmake/ ${HELLO_WORLD_GENERATOR_INPUTS}
++    $(info Finished hello_world_pregen_arrays)
++
+ #We are skipping here copy of `zephyr` third_party repository
+ #To compile standalone project ZEPHYR_BASE enviroment variable should be set
+-hello_world_bin: generate_hello_world_cmake_project $(PRJDIR)hello_world/cmake/CMakeLists.txt
++hello_world_generate_project:generate_hello_world_cmake_project $(PRJDIR)hello_world/cmake/CMakeLists.txt
+ 	( \
+ 	  . ${ZEPHYR_BASE}/venv-zephyr/bin/activate; \
+ 	  cmake -B${GENDIR}hello_world/build -DBOARD="litex_vexriscv" -H${PRJDIR}hello_world/cmake/ -DPython_ROOT_DIR=${ZEPHYR_BASE}/venv-zephyr/bin/; \
+ 	  make -C ${GENDIR}hello_world/build; \
+ 	)
++
++hello_world_bin:hello_world_pregen_arrays hello_world_generate_project
++
+ endif
+diff --git a/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/Makefile.inc b/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/Makefile.inc
+index 82e729c..84c21fd 100644
+--- a/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/Makefile.inc
++++ b/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/Makefile.inc
+@@ -20,12 +20,18 @@ $(eval $(call generate_project,cmake,zephyr_cmake_project.cmake,magic_wand,$(MIC
+ $(PRJDIR)magic_wand/cmake/CMakeLists.txt: $(PRJDIR)magic_wand/cmake/zephyr_cmake_project.cmake
+ 	@sed -E 's#\%\{INCLUDE_DIRS\}\%#$(PROJECT_INCLUDES)#g' $< > $@
+ 
++magic_wand_pregen_arrays:
++	@python3 tensorflow/lite/micro/tools/generate_cc_arrays.py ${PRJDIR}magic_wand/cmake/ ${magic_wand_GENERATOR_INPUTS}
++
+ #We are skipping here copy of `zephyr` third_party repository 
+ #To compile standalone project ZEPHYR_BASE enviroment variable should be set
+-magic_wand_bin: generate_magic_wand_cmake_project $(PRJDIR)magic_wand/cmake/CMakeLists.txt
++magic_wand_generate_project: generate_magic_wand_cmake_project $(PRJDIR)magic_wand/cmake/CMakeLists.txt
+ 	( \
+ 	  . ${ZEPHYR_BASE}/venv-zephyr/bin/activate; \
+ 	  cmake -B${GENDIR}magic_wand/build -DBOARD="litex_vexriscv" -H${PRJDIR}magic_wand/cmake/ -DPython_ROOT_DIR=${ZEPHYR_BASE}/venv-zephyr/bin/; \
+ 	  make -C ${GENDIR}magic_wand/build; \
+ 	)
++
++magic_wand_bin: magic_wand_pregen_arrays magic_wand_generate_project
++
+ endif
+-- 
+2.32.0
+
