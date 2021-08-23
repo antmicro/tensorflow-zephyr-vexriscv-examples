@@ -13,12 +13,20 @@ BUMP_ZEPHYR_TF_MD5="ZEPHYR_MD5 := \"${BUMP_ZEPHYR_MD5}\""
 sed -i "s@^ZEPHYR_URL :=.*@${BUMP_ZEPHYR_TF_URL}@" tflite-micro/tensorflow/lite/micro/tools/make/third_party_downloads.inc
 sed -i "s@^ZEPHYR_MD5 :=.*@${BUMP_ZEPHYR_TF_MD5}@" tflite-micro/tensorflow/lite/micro/tools/make/third_party_downloads.inc
 
-# Finding latest release of the zephyr-sdk. See https://docs.github.com/en/rest/reference/repos#releases for details
-RELEASES_JSON=`curl https://api.github.com/repos/zephyrproject-rtos/sdk-ng/releases 2>/dev/null`
-SDK_VERSION=`echo "${RELEASES_JSON}" |grep 'tag_name' | head --lines 1 | grep --extended-regexp --only-matching '[0-9]+\.[0-9]+\.[0-9]+'`
-if [ -z $SDK_VERSION]; then
-    echo Failed to get latest SDK version && exit 1
-fi;
+# Finding required version of the zephyr-sdk
+TOOLCHAIN_VERSION=$(curl https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/${BUMP_ZEPHYR_SHA}/cmake/verify-toolchain.cmake | \
+	grep --only-matching --extended 'TOOLCHAIN_ZEPHYR_MINIMUM_REQUIRED_VERSION [0-9]+\.[0-9]+(\.[0-9]+)?' |cut -d ' ' -f 2)
+# Extend version to SemVer standard
+case "$(echo $TOOLCHAIN_VERSION | tr '.' '\n' | wc -l)" in
+    "2")
+        SDK_VERSION=$TOOLCHAIN_VERSION.0
+        ;;
+    "3")
+        SDK_VERION=$TOOLCHAIN_VERSION
+        ;;
+    *)
+        echo "Unrecognized format of SDK version : $TOOLCHAIN_VERSION" && exit 1
+esac
 
 ZEPHYR_SDK_RELEASES_URL="https://github.com/zephyrproject-rtos/sdk-ng/releases/download"
 ZEPHYR_SDK_FILENAME="zephyr-sdk-${SDK_VERSION}-linux-x86_64-setup.run"
