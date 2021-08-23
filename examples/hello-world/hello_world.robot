@@ -23,5 +23,5 @@ Should Print Brightness Sequence
     Start Emulation
 
     Wait For Line On Uart     Booting Zephyr OS
-    Wait For Line On Uart     x_value: 1.2566366*2^-2, y_value: 1.4910772*2^-2
-    Wait For Line On Uart     x_value: 1.1780966*2^2, y_value: -1.1098361*2^0
+    Wait For Line On Uart     x_value: 1.2566366*2^-2, y_value: 1.4910722*2^-2
+    Wait For Line On Uart     x_value: 1.1780966*2^2, y_value: -1.1098324*2^0
