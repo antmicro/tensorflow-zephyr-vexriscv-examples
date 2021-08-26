@@ -35,7 +35,7 @@ jobs:
           cp $TENSORFLOW_PATH/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/magic_wand/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/magic_wand/magic_wand_zephyr.elf
 
       - name: Test magic-wand in Renode
-        uses: antmicro/renode-actions/test-in-renode@main
+        uses: antmicro/renode-test-action@v1.0.0
         with:
           tests-to-run: 'examples/magic-wand/magic_wand.robot'
 
@@ -53,7 +53,7 @@ jobs:
           cp $TENSORFLOW_PATH/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/hello_world/hello_world_zephyr.elf
 
       - name: Test hello-world in Renode
-        uses: antmicro/renode-actions/test-in-renode@main
+        uses: antmicro/renode-test-action@v1.0.0
         with:
           tests-to-run: 'examples/hello-world/hello_world.robot'
 
@@ -118,7 +118,7 @@ jobs:
           cp $TENSORFLOW_PATH/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/magic_wand/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/magic_wand/magic_wand_zephyr.elf
 
       - name: Test magic-wand in Renode
-        uses: antmicro/renode-actions/test-in-renode@main
+        uses: antmicro/renode-test-action@v1.0.0
         with:
           tests-to-run: 'examples/magic-wand/magic_wand.robot'
 
@@ -136,7 +136,7 @@ jobs:
           cp $TENSORFLOW_PATH/tensorflow/lite/micro/tools/make/gen/zephyr_vexriscv_x86_64_default/hello_world/build/zephyr/zephyr.elf $DEMO_HOME/artifacts/binaries/hello_world/hello_world_zephyr.elf
 
       - name: Test hello-world in Renode
-        uses: antmicro/renode-actions/test-in-renode@main
+        uses: antmicro/renode-test-action@v1.0.0
         with:
           tests-to-run: 'examples/hello-world/hello_world.robot'
 
