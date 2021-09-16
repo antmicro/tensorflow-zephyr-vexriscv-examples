@@ -15,7 +15,7 @@ sed -i "s@^ZEPHYR_MD5 :=.*@${BUMP_ZEPHYR_TF_MD5}@" tflite-micro/tensorflow/lite/
 
 # Finding required version of the zephyr-sdk
 TOOLCHAIN_VERSION=$(curl https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/${BUMP_ZEPHYR_SHA}/cmake/verify-toolchain.cmake | \
-	grep --only-matching --extended 'TOOLCHAIN_ZEPHYR_MINIMUM_REQUIRED_VERSION [0-9]+\.[0-9]+(\.[0-9]+)?' |cut -d ' ' -f 2)
+	grep --only-matching --extended --max-count=1 'TOOLCHAIN_ZEPHYR_MINIMUM_REQUIRED_VERSION [0-9]+\.[0-9]+(\.[0-9]+)?' |cut -d ' ' -f 2)
 # Extend version to SemVer standard
 case "$(echo $TOOLCHAIN_VERSION | tr '.' '\n' | wc -l)" in
     "2")
