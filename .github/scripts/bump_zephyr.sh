@@ -22,7 +22,7 @@ case "$(echo $TOOLCHAIN_VERSION | tr '.' '\n' | wc -l)" in
         SDK_VERSION=$TOOLCHAIN_VERSION.0
         ;;
     "3")
-        SDK_VERION=$TOOLCHAIN_VERSION
+        SDK_VERSION=$TOOLCHAIN_VERSION
         ;;
     *)
         echo "Unrecognized format of SDK version : $TOOLCHAIN_VERSION" && exit 1
