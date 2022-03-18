@@ -9,6 +9,28 @@ index f7f019d..d1f0e0c 100644
  project(tf_lite_magic_wand)
  
  # -fno-threadsafe-statics -- disables the mutex around initialization of local static variables
+
+--- a/tflite-micro/tensorflow/lite/micro/examples/hello_world/zephyr_riscv/prj.conf
++++ b/tflite-micro/tensorflow/lite/micro/examples/hello_world/zephyr_riscv/prj.conf
+@@ -13,5 +13,6 @@
+ # limitations under the License.
+ # ==============================================================================
+ CONFIG_CPLUSPLUS=y
++CONFIG_LIB_CPLUSPLUS=y
+ CONFIG_NEWLIB_LIBC=y
+ CONFIG_NETWORKING=n
+
+--- a/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/prj.conf
++++ b/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/prj.conf
+@@ -13,6 +13,7 @@
+ # limitations under the License.
+ # ==============================================================================
+ CONFIG_CPLUSPLUS=y
++CONFIG_LIB_CPLUSPLUS=y
+ CONFIG_NEWLIB_LIBC=y
+ CONFIG_SENSOR=y
+ CONFIG_ADXL345=y
+
 --- a/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc
 +++ b/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc
 @@ -23,7 +23,7 @@ limitations under the License.
