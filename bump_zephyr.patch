@@ -1,5 +1,14 @@
 diff --git a/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc b/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc
 index f7f019d..d1f0e0c 100644
+--- a/tflite-micro/tensorflow/lite/micro/tools/make/templates/zephyr_cmake_project.cmake.tpl
++++ b/tflite-micro/tensorflow/lite/micro/tools/make/templates/zephyr_cmake_project.cmake.tpl
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.13.1)
+-include($ENV{ZEPHYR_BASE}/cmake/app/boilerplate.cmake NO_POLICY_SCOPE)
++find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+ project(tf_lite_magic_wand)
+ 
+ # -fno-threadsafe-statics -- disables the mutex around initialization of local static variables
 --- a/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc
 +++ b/tflite-micro/tensorflow/lite/micro/examples/magic_wand/zephyr_riscv/src/accelerometer_handler.cc
 @@ -23,7 +23,7 @@ limitations under the License.
